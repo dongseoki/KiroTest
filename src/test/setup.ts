@@ -1,15 +1,37 @@
 // Test setup file
 import { beforeEach, afterEach, vi } from 'vitest';
 
-// Mock localStorage for tests
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-  length: 0,
-  key: vi.fn(),
-};
+// Create a proper localStorage mock that actually stores data
+class LocalStorageMock {
+  private store: Record<string, string> = {};
+
+  getItem(key: string): string | null {
+    return this.store[key] || null;
+  }
+
+  setItem(key: string, value: string): void {
+    this.store[key] = value;
+  }
+
+  removeItem(key: string): void {
+    delete this.store[key];
+  }
+
+  clear(): void {
+    this.store = {};
+  }
+
+  get length(): number {
+    return Object.keys(this.store).length;
+  }
+
+  key(index: number): string | null {
+    const keys = Object.keys(this.store);
+    return keys[index] || null;
+  }
+}
+
+const localStorageMock = new LocalStorageMock();
 
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
@@ -28,11 +50,8 @@ Object.defineProperty(window, 'navigator', {
 
 // Clean up after each test
 beforeEach(() => {
-  // Reset localStorage mock
-  localStorageMock.getItem.mockClear();
-  localStorageMock.setItem.mockClear();
-  localStorageMock.removeItem.mockClear();
-  localStorageMock.clear.mockClear();
+  // Clear localStorage data
+  localStorageMock.clear();
 });
 
 afterEach(() => {
