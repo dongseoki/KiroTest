@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="허리건강을 체계적으로 관리하는 웹앱" />
+  <meta name="theme-color" content="#ffffff" />
+  
+  <!-- PWA Meta Tags -->
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="mask-icon" href="/masked-icon.svg" color="#000000" />
+  
+  <title>허리건강 관리</title>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <nav class="navbar">
+        <div class="nav-brand">
+          <h1>허리건강 관리</h1>
+        </div>
+        <div class="nav-menu">
+          <a href="#dashboard" class="nav-link active">대시보드</a>
+          <a href="#record" class="nav-link">기록하기</a>
+          <a href="#exercise" class="nav-link">운동하기</a>
+          <a href="#progress" class="nav-link">진행상황</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <div id="dashboard-view" class="view active">
+        <h2>대시보드</h2>
+        <div class="dashboard-cards">
+          <div class="card">
+            <h3>오늘의 통증 수준</h3>
+            <div id="today-pain-level">-</div>
+          </div>
+          <div class="card">
+            <h3>이번 주 운동</h3>
+            <div id="week-exercises">0회</div>
+          </div>
+          <div class="card">
+            <h3>연속 기록</h3>
+            <div id="streak-days">0일</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="record-view" class="view">
+        <h2>허리 상태 기록</h2>
+        <form id="health-record-form">
+          <div class="form-group">
+            <label for="pain-level">통증 수준 (1-10)</label>
+            <input type="range" id="pain-level" min="1" max="10" value="5" />
+            <span id="pain-level-value">5</span>
+          </div>
+          
+          <div class="form-group">
+            <label>통증 위치</label>
+            <div class="pain-location-grid">
+              <label><input type="checkbox" name="pain-location" value="upper-left" /> 상부 좌측</label>
+              <label><input type="checkbox" name="pain-location" value="upper-center" /> 상부 중앙</label>
+              <label><input type="checkbox" name="pain-location" value="upper-right" /> 상부 우측</label>
+              <label><input type="checkbox" name="pain-location" value="middle-left" /> 중부 좌측</label>
+              <label><input type="checkbox" name="pain-location" value="middle-center" /> 중부 중앙</label>
+              <label><input type="checkbox" name="pain-location" value="middle-right" /> 중부 우측</label>
+              <label><input type="checkbox" name="pain-location" value="lower-left" /> 하부 좌측</label>
+              <label><input type="checkbox" name="pain-location" value="lower-center" /> 하부 중앙</label>
+              <label><input type="checkbox" name="pain-location" value="lower-right" /> 하부 우측</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="notes">메모 (선택사항)</label>
+            <textarea id="notes" maxlength="500" placeholder="오늘의 허리 상태에 대한 추가 정보..."></textarea>
+          </div>
+          
+          <button type="submit">기록 저장</button>
+        </form>
+      </div>
+
+      <div id="exercise-view" class="view">
+        <h2>운동 추천</h2>
+        <div id="exercise-recommendations">
+          <p>통증 수준을 먼저 기록해주세요.</p>
+        </div>
+      </div>
+
+      <div id="progress-view" class="view">
+        <h2>진행상황</h2>
+        <div class="chart-container">
+          <canvas id="pain-trend-chart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="exercise-progress-chart"></canvas>
+        </div>
+      </div>
+    </main>
+
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>로딩 중...</p>
+    </div>
+
+    <div id="error-message" class="error-message hidden">
+      <p id="error-text"></p>
+      <button id="error-close">닫기</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
